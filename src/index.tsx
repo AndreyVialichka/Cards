@@ -12,13 +12,13 @@ import {
 import ErrorPage from 'components/ErrorPage';
 import SignInPage from 'features/auth/login/SignInPage';
 import CardsPage from 'components/CardsPage';
-import CheckEmailPage from 'components/CheckEmailPage';
-import FoggotPasportPage from 'components/FoggotPasportPage';
+import CheckEmailPage from 'features/auth/checkEmail/CheckEmailPage';
+import FoggotPasportPage from 'features/auth/foggotPassport/ForgotPassportPage';
 import LearnPage from 'components/LearnPage';
 import PacksPage from 'components/PacksPage';
-import ProfilePage from 'components/ProfilePage';
+import ProfilePage from 'features/auth/profile/ProfilePage';
 import RegisterPage from 'features/auth/register/RegisterPage';
-import SetNewPasswordPage from 'components/SetNewPasswordPage';
+import SetNewPasswordPage from 'features/auth/createNewPassport/SetNewPasswordPage';
 
 const router = createBrowserRouter([
   {

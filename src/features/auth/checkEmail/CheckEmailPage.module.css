@@ -1,0 +1,39 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    min-width: 413px;
+    min-height: 552px;
+    background-color: #FFFFFF;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 20px 20px 20px;
+}
+
+.form label:first-child {
+    font-weight: 600;
+}
+
+
+.sign_up {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.email_input label {
+    font-size: 70%;
+    font-weight: 300;
+    color: rgba(0,0,0,0.2);
+}
+
+.sign_up a{
+    width: 300px;
+    height: 35px;
+    background-color: #366EFF;;
+    color: #d5d8e0;
+    font-size: 60%;
+    text-decoration: none;
+    border: 1px solid #366EFF;
+    border-radius: 15px;
+} 

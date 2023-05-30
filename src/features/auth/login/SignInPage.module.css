@@ -1,0 +1,126 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    min-width: 413px;
+    min-height: 552px;
+    background-color: #FFFFFF;
+    justify-content: space-around;
+    padding: 20px 20px 20px 20px;
+}
+
+.form label:first-child {
+    font-weight: 600;
+}
+.email_input {
+    max-width: 347px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.email_input input {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.email_input input:focus{
+    outline: none
+}
+
+.email_input label {
+    width: fit-content;
+    font-size: 50%;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.password_input {
+
+    max-width: 347px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.password_input input {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.password_input input:focus{
+    outline: none
+}
+
+.password_input label {
+    width: fit-content;
+    font-size: 50%;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.checkbox_input {
+
+    min-width: 347px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    font-size: 70%;
+    
+}
+
+.checkbox_input label {
+    margin-left: 15px;
+}
+
+.checkbox_input input {
+    width: 20px;
+    height: 20px;
+}
+
+.forgot_password {
+    display: flex;
+    flex-direction: row;
+    font-size: 70%;
+    justify-content: end;
+}
+
+.forgot_password a {
+    color: black;
+    text-decoration: none;
+}
+
+.sign_in {
+    display: flex;
+   
+    justify-content: center;
+} 
+
+.sign_in input {
+    min-width: 256px;
+    border: 1px solid #366EFF;
+    border-radius: 20px;
+    height: 36px;
+    color: antiquewhite;
+    background-color: #366EFF;
+}
+
+.sign_up {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.sign_up label {
+    font-size: 70%;
+    font-weight: 300;
+    color: rgba(0,0,0,0.2);
+}
+
+.sign_up a{
+
+    color: #366EFF;
+    font-size: 80%;
+} 

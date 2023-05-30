@@ -18,8 +18,8 @@ function App() {
   }, []);
   return (
     <div className="App">
-        <nav>
-          <ul>
+        <nav className='Navbar'>
+          <ul className='Navbar'>
             <li>
               <Link to={`SignInPage`}>SignIn</Link>
             </li>
@@ -42,7 +42,7 @@ function App() {
               <Link to={`ProfilePage`}>ProfilePage</Link>
             </li>
             <li>
-              <Link to={`RegisterPage`}>RegisterPage</Link>
+              <Link to={`RegisterPage`} >RegisterPage</Link>
             </li>
             <li>
               <Link to={`SetNewPassportPage`}>SetNewPassportPage</Link>
@@ -52,9 +52,6 @@ function App() {
       <Outlet />
       {isLoading && <h1>Loader...</h1>}
       
-      <header className="App-header">
-        <Counter />
-      </header>
     </div>
   );
 }
