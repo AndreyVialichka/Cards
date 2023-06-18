@@ -1,5 +1,5 @@
 import { authThunks } from "features/auth/auth.slice";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch } from "../../../common/hooks/useAppDispatch";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./ForgotPassport.module.css"
 import { Link, useNavigate } from "react-router-dom";

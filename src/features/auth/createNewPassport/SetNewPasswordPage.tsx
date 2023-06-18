@@ -1,8 +1,8 @@
 import { authThunks } from "features/auth/auth.slice";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch } from "../../../common/hooks/useAppDispatch";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./SetNewPasswordPage.module.css"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {MESSAGE_FOR_FOGGOTEN_PASSPORT} from "../auth.api"
 
 
@@ -12,18 +12,17 @@ type Inputs = {
 
 
 export default function SetNewPasswordPage() {
-
+  const location = useLocation()
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = data => {
     let payload = {
-      email: data.password,
-      from : "test-front-admin <ai73a@yandex.by>",
-      message: MESSAGE_FOR_FOGGOTEN_PASSPORT
+      password: data.password,
+      resetPasswordToken : location.pathname
     }
-    dispatch(authThunks.forgotPassword(payload));
-    navigate("/CheckEmailPage")
+    dispatch(authThunks.setNewPassword(payload));
+    navigate("/SignInPage")
   };
 
   return (
@@ -33,7 +32,6 @@ export default function SetNewPasswordPage() {
     <div className={styles.form}>
       <label>Create New Password</label>
       <div className={styles.email_input}>
-        <label></label>
         <input
           defaultValue="password" 
           {...register("password")} 

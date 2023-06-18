@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { useEffect } from 'react';
 import './App.css';
 import { Link, Outlet } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppDispatch } from '../common/hooks/useAppDispatch';
+import {  useAppSelector } from '../common/hooks/useAppSelector';
 import { appActions } from 'app/app.slice';
+import { LinearProgress } from '@mui/material';
+import { isLoadingSelector } from './app.selectors';
 
 function App() {
-  const isLoading = useAppSelector((state) => state.app.isLoading);
+  const isLoading = useAppSelector(isLoadingSelector);
+  // const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized);
+  
 
   const dispatch = useAppDispatch();
 
@@ -18,6 +21,7 @@ function App() {
   }, []);
   return (
     <div className="App">
+      {isLoading && <LinearProgress />}
         <nav className='Navbar'>
           <ul className='Navbar'>
             <li>
@@ -50,7 +54,6 @@ function App() {
           </ul>
         </nav>
       <Outlet />
-      {isLoading && <h1>Loader...</h1>}
       
     </div>
   );

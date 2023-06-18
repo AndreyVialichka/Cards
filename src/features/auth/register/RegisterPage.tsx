@@ -1,6 +1,8 @@
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useAppDispatch } from '../../../common/hooks/useAppDispatch';
+import {  useAppSelector } from '../../../common/hooks/useAppSelector';
+import { selectEmail } from '../auth.selectors';
 import styles from "./RegisterStyles.module.css"
-import { authThunks, selectEmail } from "features/auth/auth.slice";
+import { authThunks } from "features/auth/auth.slice";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
@@ -13,7 +15,7 @@ export default function RegisterPage () {
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
   const email = useAppSelector(selectEmail);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = data => {
     let payload = {
       email: data.email,

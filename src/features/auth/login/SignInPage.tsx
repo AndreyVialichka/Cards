@@ -1,8 +1,11 @@
 import { authThunks } from "features/auth/auth.slice";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch } from '../../../common/hooks/useAppDispatch';
+import {  useAppSelector } from '../../../common/hooks/useAppSelector';
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./SignInPage.module.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useEffect } from 'react';
 type Inputs = {
   email: string,
   password: string,
@@ -12,6 +15,9 @@ type Inputs = {
 
 export default function SignInPage () {
   const dispatch = useAppDispatch();
+  const profile = useAppSelector((state) => state.auth.profile);
+  const navigate = useNavigate()
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = data => {
     let payload = {
@@ -21,6 +27,11 @@ export default function SignInPage () {
     }
     dispatch(authThunks.login(payload));
   };
+
+  if(profile !== null){
+    navigate('/ProfilePage')
+  }
+  
 
   return (
     <form 

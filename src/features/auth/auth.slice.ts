@@ -1,42 +1,66 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "app/store";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk";
-import { LoginResponseType, RegisterResponseType, authApi, loginPayloadType, payloadForgotPassportType } from "features/auth/auth.api";
+import { thunkTryCatch } from "common/utils/thunk-try-catch";
+import { authApi, loginPayloadType, payloadForgotPassportType, payloadNewPassportType, profileType } from "features/auth/auth.api";
 import { payloadRegistrationType } from "features/auth/auth.api";
 
 
-const register = createAppAsyncThunk<void,payloadRegistrationType>("auth/register", async (arg) => {
-      await authApi.registration(arg);
+const register = createAppAsyncThunk<void,payloadRegistrationType>("auth/register", async (arg,thunkAPI) => {
+        return thunkTryCatch(thunkAPI, async () => {
+          const res = await authApi.registration(arg);
+          console.log(res)
+        })
+      
     }
 );
 
-const login = createAppAsyncThunk<{ profile : LoginResponseType },loginPayloadType>( "auth/login", async (arg) => {
-      const res = await authApi.login(arg)
-        return  { profile: res.data }
+
+// change login thunk TODO
+const login = createAppAsyncThunk<{ profile : profileType },loginPayloadType>( "auth/login", async (arg, thunkAPI) => {
+        return thunkTryCatch(thunkAPI, async() => {
+          const res = await authApi.login(arg)
+          debugger
+          return  { profile: res.data }
+        },)
     }
 );  
 
 const logut = createAppAsyncThunk( "auth/logut", async (arg) => {
-  await authApi.logout()
-}
+    await authApi.logout()
+  }
 );
 
-const forgotPassword = createAppAsyncThunk<any,payloadForgotPassportType>( "auth/forgotPassword", async (arg) => {
-  await authApi.forgorPassport(arg)
+const forgotPassword = createAppAsyncThunk<any,payloadForgotPassportType>( "auth/forgotPassword", async (arg,thunkAPI) => {
+  
+    await authApi.forgorPassport(arg)
+  }
+);
+
+const setNewPassword = createAppAsyncThunk<any,payloadNewPassportType>( "auth/setNewPassport", async (arg,thunkAPI) => {
+  let splashIndex = arg.resetPasswordToken.lastIndexOf('/')
+  let token = arg.resetPasswordToken.slice(splashIndex+1)
+  let payload = {
+    ...arg,
+    resetPasswordToken: token
+  }
+  await authApi.setNewPassport(payload)
 }
 );
   
   const slice = createSlice({
     name: "auth",
     initialState: {
-      profile: null as LoginResponseType | null
+      profile: null as profileType | null
     },
     reducers: {
+      changeName: (state, action: PayloadAction<string>) => {
+        //@ts-ignore
+          state.profile.name = action.payload;
+      },
     },
     extraReducers: builder => {
       builder.addCase(login.fulfilled , (state,action) => {
         state.profile = action.payload.profile
-        debugger
       })
       .addCase(logut.fulfilled, (state,action) => {
         state.profile = null
@@ -49,9 +73,9 @@ const forgotPassword = createAppAsyncThunk<any,payloadForgotPassportType>( "auth
   
   export const authReducer = slice.reducer;
 
-  export const selectEmail = (state: RootState) => state.auth.profile;
-  debugger
+
+
   // Санки давайте упакуем в объект, нам это пригодится в дальнейшем
-  export const authThunks = { register , login, logut, forgotPassword };
+  export const authThunks = { register , login, logut, forgotPassword, setNewPassword };
   export const authActions = slice.actions
   export const  setProfile  = slice.actions

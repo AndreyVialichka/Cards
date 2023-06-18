@@ -1,0 +1,16 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    max-width: 413px;
+    min-height: 552px;
+    background-color: #FFFFFF;
+    justify-content: space-around;
+    padding: 20px 20px 20px 20px;
+}
+
+.img img{
+    width: 90px;
+    height: 90px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+}

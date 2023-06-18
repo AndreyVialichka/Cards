@@ -1,24 +1,25 @@
-import React, { Children } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
-import App from './App';
+import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 import ErrorPage from 'components/ErrorPage';
 import SignInPage from 'features/auth/login/SignInPage';
 import CardsPage from 'components/CardsPage';
 import CheckEmailPage from 'features/auth/checkEmail/CheckEmailPage';
 import FoggotPasportPage from 'features/auth/foggotPassport/ForgotPassportPage';
 import LearnPage from 'components/LearnPage';
-import PacksPage from 'components/PacksPage';
 import ProfilePage from 'features/auth/profile/ProfilePage';
 import RegisterPage from 'features/auth/register/RegisterPage';
 import SetNewPasswordPage from 'features/auth/createNewPassport/SetNewPasswordPage';
+import { Packs } from 'features/packs/Packs';
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
       },
       {
         path: "PacksPage",
-        element: <PacksPage />
+        element: <Packs />
       },
       {
         path: "ProfilePage",
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
         element: <RegisterPage />
       },
       {
-        path: "SetNewPassportPage",
+        path: "SetNewPassportPage:?/*",
         element: <SetNewPasswordPage />
       },
     ],

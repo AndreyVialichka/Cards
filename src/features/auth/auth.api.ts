@@ -4,14 +4,14 @@ import { instance } from "common/common.api"
 
 export const authApi = {
     registration: (payload:payloadRegistrationType) => {
-        return instance.post<RegisterResponseType>('auth/register',{
+        return instance.post<RegisterResponseType>('https://neko-back.herokuapp.com/2.0/auth/register',{
             email : payload.email,
             password : payload.password
         })
     },
 
     login: (payload:loginPayloadType) => {
-        return instance.post<LoginResponseType>('auth/login', payload)
+        return instance.post<profileType>('auth/login', payload)
     },
 
     logout: () => {
@@ -20,7 +20,16 @@ export const authApi = {
 
     forgorPassport: (payload:payloadForgotPassportType) => {
         return instance.post('https://neko-back.herokuapp.com/2.0/auth/forgot',payload)
+    },
+    setNewPassport: (payload:payloadNewPassportType) => {
+        return instance.post('https://neko-back.herokuapp.com/2.0/auth/set-new-password',payload)
     }
+
+}
+
+export type payloadNewPassportType = {
+    password:string,
+    resetPasswordToken:string
 
 }
 
@@ -73,6 +82,22 @@ export type RegisterResponseType = {
         tokenDeathTime: number
     }
   }
+
+  export type profileType = {
+    _id: string
+    email: string
+    rememberMe: boolean
+    isAdmin: boolean
+    name: string
+    verified: boolean
+    publicCardPacksCount: number
+    created: string
+    updated: string
+    __v: number
+    token: string
+    tokenDeathTime: number
+  }
+
 
 export  const MESSAGE_FOR_FOGGOTEN_PASSPORT =  `<div style="background-color: lime; padding: 15px">
 password recovery link: 
