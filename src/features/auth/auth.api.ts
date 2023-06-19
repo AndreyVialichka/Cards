@@ -4,7 +4,7 @@ import { instance } from "common/common.api"
 
 export const authApi = {
     registration: (payload:payloadRegistrationType) => {
-        return instance.post<RegisterResponseType>('https://neko-back.herokuapp.com/2.0/auth/register',{
+        return instance.post<RegisterResponseType>('auth/register',{
             email : payload.email,
             password : payload.password
         })
@@ -19,10 +19,10 @@ export const authApi = {
     },
 
     forgorPassport: (payload:payloadForgotPassportType) => {
-        return instance.post('https://neko-back.herokuapp.com/2.0/auth/forgot',payload)
+        return instance.post('forgot',payload)
     },
     setNewPassport: (payload:payloadNewPassportType) => {
-        return instance.post('https://neko-back.herokuapp.com/2.0/auth/set-new-password',payload)
+        return instance.post('auth/set-new-password',payload)
     }
 
 }

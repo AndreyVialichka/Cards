@@ -10,9 +10,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
-import ErrorPage from 'components/ErrorPage';
 import SignInPage from 'features/auth/login/SignInPage';
-import CardsPage from 'components/CardsPage';
+import 'react-toastify/dist/ReactToastify.css';
 import CheckEmailPage from 'features/auth/checkEmail/CheckEmailPage';
 import FoggotPasportPage from 'features/auth/foggotPassport/ForgotPassportPage';
 import LearnPage from 'components/LearnPage';
@@ -20,20 +19,21 @@ import ProfilePage from 'features/auth/profile/ProfilePage';
 import RegisterPage from 'features/auth/register/RegisterPage';
 import SetNewPasswordPage from 'features/auth/createNewPassport/SetNewPasswordPage';
 import { Packs } from 'features/packs/Packs';
+import { Cards } from 'features/cards/componets/Cards/Cards';
+import { GlobalError } from 'common/GlobalError/GlobalError';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:  <App />,
-    errorElement: <ErrorPage />,
     children :[
       {
-        path: "SignInPage",
+        path: "signin",
         element: <SignInPage />
       },
       {
-        path: "CardsPage",
-        element: <CardsPage />
+        path: '/cards/:packId',
+        element: <Cards/>,
       },
       {
         path: "CheckEmailPage",
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: <LearnPage />
       },
       {
-        path: "PacksPage",
+        path: "packs",
         element: <Packs />
       },
       {
@@ -72,6 +72,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <GlobalError />
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>

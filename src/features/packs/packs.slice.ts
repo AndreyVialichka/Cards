@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
-import { ArgCreatePackType, FetchPacksResponseType, packsApi, PackType } from "features/packs/packs.api";
+import { ArgCreatePackType, FetchPacksResponseType, fetchPackType, packsApi, PackType } from "features/packs/packs.api";
 
-const fetchPacks = createAppAsyncThunk<{ packsPage: FetchPacksResponseType }, void>(
+const fetchPacks = createAppAsyncThunk<{ packsPage: FetchPacksResponseType }, fetchPackType>(
   "packs/fetchPacks",
-  async (_, thunkAPI) => {
+  async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await packsApi.getPacks();
+      const res = await packsApi.getPacks(arg);
       return { packsPage: res.data };
     });
   }
@@ -45,12 +45,17 @@ const slice = createSlice({
     cardPacksTotalCount: 2000,
     minCardsCount: 0,
     maxCardsCount: 100,
+    packsSearch:'',
   },
-  reducers: {},
+  reducers: {
+    packsSearch(state, action: PayloadAction<string>) {
+      state.packsSearch = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchPacks.fulfilled, (state, action) => {
       const packsPage = action.payload.packsPage;
-      state.cardPacks = packsPage.cardPacks;
+      state.cardPacks.unshift(...packsPage.cardPacks);
       state.page = packsPage.page;
       state.pageCount = packsPage.pageCount;
       state.cardPacksTotalCount = packsPage.cardPacksTotalCount;
@@ -75,3 +80,4 @@ const slice = createSlice({
 
 export const packsReducer = slice.reducer;
 export const packsThunks = { fetchPacks, createPack, removePack, updatePack  };
+export const packsActions = slice.actions

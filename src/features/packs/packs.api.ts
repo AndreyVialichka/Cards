@@ -1,8 +1,8 @@
 import { instance } from "../../common/common.api";
 
 export const packsApi = {
-  getPacks: () => {
-    return instance.get<FetchPacksResponseType>("cards/pack?pageCount=100");
+  getPacks: (searchParams:fetchPackType) => {
+    return instance.get<FetchPacksResponseType>(`cards/pack?packName=${searchParams.searchName}&pageCount=10`);
   },
   createPack: (cardsPack: ArgCreatePackType) => {
     return instance.post<CreatePackResponseType>("cards/pack", { cardsPack });
@@ -67,4 +67,8 @@ export type ArgCreatePackType = {
   name?: string;
   deckCover?: string;
   private?: boolean;
+};
+
+export type fetchPackType = {
+  searchName?: string;
 };

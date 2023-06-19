@@ -5,7 +5,7 @@ import { authApi, loginPayloadType, payloadForgotPassportType, payloadNewPasspor
 import { payloadRegistrationType } from "features/auth/auth.api";
 
 
-const register = createAppAsyncThunk<void,payloadRegistrationType>("auth/register", async (arg,thunkAPI) => {
+const registration = createAppAsyncThunk<void,payloadRegistrationType>("auth/register", async (arg,thunkAPI) => {
         return thunkTryCatch(thunkAPI, async () => {
           const res = await authApi.registration(arg);
           console.log(res)
@@ -19,7 +19,6 @@ const register = createAppAsyncThunk<void,payloadRegistrationType>("auth/registe
 const login = createAppAsyncThunk<{ profile : profileType },loginPayloadType>( "auth/login", async (arg, thunkAPI) => {
         return thunkTryCatch(thunkAPI, async() => {
           const res = await authApi.login(arg)
-          debugger
           return  { profile: res.data }
         },)
     }
@@ -76,6 +75,6 @@ const setNewPassword = createAppAsyncThunk<any,payloadNewPassportType>( "auth/se
 
 
   // Санки давайте упакуем в объект, нам это пригодится в дальнейшем
-  export const authThunks = { register , login, logut, forgotPassword, setNewPassword };
+  export const authThunks = { registration , login, logut, forgotPassword, setNewPassword };
   export const authActions = slice.actions
   export const  setProfile  = slice.actions

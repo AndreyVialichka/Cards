@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
-import { baseURL } from 'common/api/common.api';
+import { baseURL } from '../../../common/common.api';
 import {
 	AddCardResponseType,
 	ArgCreateCardType, ArgDeleteCardType,

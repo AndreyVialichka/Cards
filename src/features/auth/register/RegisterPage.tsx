@@ -1,3 +1,4 @@
+import { useActions } from 'common/hooks/useActions';
 import { useAppDispatch } from '../../../common/hooks/useAppDispatch';
 import {  useAppSelector } from '../../../common/hooks/useAppSelector';
 import { selectEmail } from '../auth.selectors';
@@ -5,6 +6,7 @@ import styles from "./RegisterStyles.module.css"
 import { authThunks } from "features/auth/auth.slice";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 type Inputs = {
   email: string,
@@ -13,23 +15,25 @@ type Inputs = {
 
 export default function RegisterPage () {
   const navigate = useNavigate()
-  const dispatch = useAppDispatch();
-  const email = useAppSelector(selectEmail);
+  const { registration } = useActions(authThunks);
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = data => {
     let payload = {
       email: data.email,
       password : data.password
     }
-    dispatch(authThunks.register(payload));
-    navigate("/SignInPage")
+    registration(payload)
+      .unwrap()
+      .then((res) => {
+        toast.success("Вы успешно зарегистрировались");
+        navigate("/signin")
+      })
+      .catch((err) => {
+        toast.error(err.e.response.data.error);
+      });
   };
   return (
   <form onSubmit={handleSubmit(onSubmit)}> 
-  { email &&  (
-    
-     <Navigate to = '/SignInPage' replace={true} />
-  )}
   <div className={styles.form}>
     <label>Sign Up</label>
     <div className={styles.email_input}>

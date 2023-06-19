@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { Pagination } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import s from './styles.module.css'
+import BasicTable from '../CardsTable/CardsTable';
 
 type ErrorDataType = {
 	error: string;
@@ -52,6 +53,7 @@ export const Cards = () => {
 			};
 			addCard(newCard).unwrap()
 				.then((res) => {
+					debugger
 					const cardQuestion = res.newCard.question;
 					toast.success(`Карточка ${cardQuestion} успешно добавлена`);
 				})
@@ -69,9 +71,6 @@ export const Cards = () => {
 		deleteCard({packId: card.cardsPack_id, page, pageCount, cardId: card._id})
 	};
 
-	// if (isLoading || isDeletedLoading) {
-	// 	return <LinearProgress color={'secondary'}/>;
-	// }
 
 	if (error) {
 		const err = error as any
@@ -84,24 +83,31 @@ export const Cards = () => {
 			<h1>Cards</h1>
 			<button onClick={addCardHandler}>add card</button>
 			<div>
-				{data?.cards.map((card) => {
-					return (
-						<div className={s.container} key={card._id}>
-							<div>
-								<b>Question: </b>
-								<p>{card.question}</p>{' '}
-							</div>
-							<div>
-								<b>Answer: </b>
-								<p>{card.answer}</p>{' '}
-							</div>
-							<button onClick={() => removeCardHandler(card)}>delete card</button>
-							<button onClick={() => updateCardHandler(card)}>upadate card</button>
-						</div>
-					);
-				})}
+				<BasicTable 
+					cards={data?.cards}
+					updateCardHandler={updateCardHandler}
+					removeCardHandler = {removeCardHandler}
+
+				/>
 			</div>
 			<Pagination count={data?.cardsTotalCount} onChange={changePageHandler}/>
 		</div>
 	);
 };
+
+// {data?.cards.map((card) => {
+// 	return (
+// 		<div className={s.container} key={card._id}>
+// 			<div>
+// 				<b>Question: </b>
+// 				<p>{card.question}</p>{' '}
+// 			</div>
+// 			<div>
+// 				<b>Answer: </b>
+// 				<p>{card.answer}</p>{' '}
+// 			</div>
+// 			<button onClick={() => removeCardHandler(card)}>delete card</button>
+// 			<button onClick={() => updateCardHandler(card)}>upadate card</button>
+// 		</div>
+// 	);
+// })}

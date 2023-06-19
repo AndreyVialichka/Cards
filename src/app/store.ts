@@ -3,14 +3,18 @@ import counterReducer from '../features/counter/counterSlice';
 import { appReducer } from './app.slice';
 import { authReducer } from '../features/auth/auth.slice';
 import { packsReducer } from 'features/packs/packs.slice';
+import { cardsApi } from 'features/cards/service/cards.api';
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
     counter: counterReducer,
     auth: authReducer,
-    packs: packsReducer
+    packs: packsReducer,
+    [cardsApi.reducerPath]: cardsApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(cardsApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

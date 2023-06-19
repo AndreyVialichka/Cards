@@ -6,6 +6,8 @@ import styles from "./SignInPage.module.css"
 import { Link, useNavigate } from "react-router-dom";
 
 import { useEffect } from 'react';
+import { useActions } from "common/hooks/useActions";
+import { toast } from "react-toastify";
 type Inputs = {
   email: string,
   password: string,
@@ -14,23 +16,30 @@ type Inputs = {
 
 
 export default function SignInPage () {
-  const dispatch = useAppDispatch();
+  const { login } = useActions(authThunks);
   const profile = useAppSelector((state) => state.auth.profile);
   const navigate = useNavigate()
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit} = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = data => {
+    
     let payload = {
       email: data.email,
       password : data.password,
       rememberMe: data.rememberMe,
     }
-    dispatch(authThunks.login(payload));
-  };
 
-  if(profile !== null){
-    navigate('/ProfilePage')
-  }
+    login(payload)
+      .unwrap()
+      .then((res) => {
+        toast.success("Вы успешно залогинились");
+        navigate("/packs");
+      })
+      .catch((err) => {
+        toast.error(err.e.response.data.error);
+      });
+
+  };
   
 
   return (

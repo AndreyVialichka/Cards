@@ -25,7 +25,7 @@ function App() {
         <nav className='Navbar'>
           <ul className='Navbar'>
             <li>
-              <Link to={`SignInPage`}>SignIn</Link>
+              <Link to={`signin`}>SignIn</Link>
             </li>
             <li>
               <Link to={`CardsPage`}>CardsPage</Link>
@@ -40,7 +40,7 @@ function App() {
               <Link to={`LearnPage`}>LearnPage</Link>
             </li>
             <li>
-              <Link to={`PacksPage`}>PacksPage</Link>
+              <Link to={`packs`}>PacksPage</Link>
             </li>
             <li>
               <Link to={`ProfilePage`}>ProfilePage</Link>
