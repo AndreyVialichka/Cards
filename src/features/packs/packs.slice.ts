@@ -55,7 +55,7 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchPacks.fulfilled, (state, action) => {
       const packsPage = action.payload.packsPage;
-      state.cardPacks.unshift(...packsPage.cardPacks);
+      state.cardPacks = [...packsPage.cardPacks]
       state.page = packsPage.page;
       state.pageCount = packsPage.pageCount;
       state.cardPacksTotalCount = packsPage.cardPacksTotalCount;

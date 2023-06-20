@@ -1,15 +1,11 @@
 import { TextField, Typography } from "@mui/material"
 import Switch from '@mui/material/Switch';
-import { Slider } from '@mui/material';
 import s from "./styles.module.css";
+import { RangeSlider } from "./Slider/Slider";
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 
 export  const PacksSetting = (props:any) => {
-    const onChangeHandler = (e:any)=> {
-        console.log(e.curret)
-        debugger
-    }
     return (
         <div className={s.container}>
             <TextField
@@ -17,9 +13,12 @@ export  const PacksSetting = (props:any) => {
                 value={props.searchValue}
                 id="standard-basic" label="Standard" variant="standard" />
             <Typography>Off</Typography>
-            <Switch {...label} onChange={onChangeHandler} checked={false}/>
+            <Switch {...label} onChange={props.changeMyPacksStatus} checked={props.myPacksStatus}/>
             <Typography>On</Typography>
-            <Slider />
+            <RangeSlider
+                sliderChangeHandler={props.sliderChangeHandler}
+                sliderValue = {props.sliderValue}
+            />
         </div>
     )
 }

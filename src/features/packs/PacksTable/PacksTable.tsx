@@ -33,7 +33,7 @@ export default function PacksTable(props:PacksTablePropsType) {
         <TableBody>
           {props.cards.map((card) =>{ 
             return <TableRow
-              key={card.name}
+              key={card._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../common/hooks/useAppDispatch";
 import { useAppSelector } from "../../common/hooks/useAppSelector";
 import { packsActions, packsThunks } from "features/packs/packs.slice";
@@ -9,18 +9,36 @@ import { useActions } from "../../common/hooks/useActions";
 import { useNavigate } from "react-router-dom";
 import PacksTable from './PacksTable/PacksTable'
 import { PacksSetting } from "./PacksSettings/PacksSetting";
+import { useDebounce } from "common/hooks/useDebounse";
 
 export const Packs = () => {
   const { fetchPacks, removePack, createPack } = useActions(packsThunks);
   const { packsSearch } = useActions(packsActions)
+
   const cardPacks = useAppSelector((state) => state.packs.cardPacks);
+  const userId = useAppSelector((state) => state.auth.profile?._id);
   const searchValue = useAppSelector((state) => state.packs.packsSearch);
+
+  const sliderChangeHandler = (event: any, value: number | number[]) => {
+    setSliderValue(value as number[]);
+  };
+
+  const [sliderValue, setSliderValue] = useState<number[]>([20, 37]);
+  const [myPacksStatus, setMyPacksStatus] = useState(false)
+  
+  const debouncedValue = useDebounce<string>(searchValue, 500)
+
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchPacks({searchName:searchValue});
-  }, [searchValue]);
+    fetchPacks({
+        searchName:searchValue,
+        userID: myPacksStatus ? userId : '',
+        minCards: sliderValue[0],
+        maxCards: sliderValue[1]
+      });
+  }, [debouncedValue,myPacksStatus,sliderValue]);
 
   const searchPacksHander = (e:any) => {
     packsSearch(e.currentTarget.value)
@@ -45,7 +63,9 @@ export const Packs = () => {
   const navigateToCardsPageHandler = (packId: string) => {
 		navigate(`/cards/${packId}`);
 	};
-
+  const changeMyPacksStatus = (e:any) => {
+    setMyPacksStatus(e.currentTarget.checked)
+  }
   return (
     <div>
       <h1>Packs</h1>
@@ -53,6 +73,10 @@ export const Packs = () => {
       <PacksSetting
         searchValue = {searchValue}
         searchPacksHander = {searchPacksHander}
+        changeMyPacksStatus = {changeMyPacksStatus}
+        myPacksStatus = {myPacksStatus}
+        sliderChangeHandler = {sliderChangeHandler}
+        sliderValue= {sliderValue}
       />
       <PacksTable 
         cards= {cardPacks}
@@ -64,21 +88,3 @@ export const Packs = () => {
   );
 };
 
-// {cardPacks.map((p) => {
-//   return (
-//     <div key={p._id} className={s.container}>
-//       <p>
-//         <b>pack name</b>: {p.name}
-//       </p>
-//       <p>
-//         <b>cardsCount</b>: {p.cardsCount}
-//       </p>
-//       <p>
-//         <b>user name</b>: {p.user_name}
-//       </p>
-//       <button onClick={() => removePackHandler(p._id)}>remove</button>
-//       <button onClick={() => updatePackHandler(p)}>update</button>
-//       <button onClick={() => navigateToCardsPageHandler(p._id)}>на страницу карточек</button>
-//     </div>
-//   );
-// })}
