@@ -11,8 +11,11 @@ import PacksTable from './PacksTable/PacksTable'
 import { PacksSetting } from "./PacksSettings/PacksSetting";
 import { useDebounce } from "common/hooks/useDebounse";
 import { Pagination } from "common/components/Pagination/Pagination";
+import { AddNewPackModal } from "features/Modals/PacksModals/AddNewPackModal";
 
 export const Packs = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const { fetchPacks, removePack, createPack } = useActions(packsThunks);
   const { packsSearch,changePagintationAC } = useActions(packsActions)
 
@@ -53,11 +56,9 @@ export const Packs = () => {
     packsSearch(e.currentTarget.value)
   }
 
-  const addPackHandler = () => {
-    const newPack = {
-      name: "🦁" + Math.random(),
-    };
-   createPack(newPack);
+  const addPackHandler = (name:string) => {
+
+   createPack({name});
   };
 
   const removePackHandler = (id: string) => {
@@ -92,7 +93,14 @@ export const Packs = () => {
   return (
     <div>
       <h1>Packs</h1>
-      <button onClick={addPackHandler}>add pack</button>
+      <button onClick={() => {
+        setIsModalOpen(!isModalOpen)
+      }}>add pack</button>
+      <AddNewPackModal
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    addPack={addPackHandler}
+                />
       <PacksSetting
         searchValue = {searchValue}
         searchPacksHander = {searchPacksHander}
