@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "../../common/hooks/useAppDispatch";
 import { useAppSelector } from "../../common/hooks/useAppSelector";
 import { packsActions, packsThunks } from "features/packs/packs.slice";
@@ -10,14 +10,20 @@ import { useNavigate } from "react-router-dom";
 import PacksTable from './PacksTable/PacksTable'
 import { PacksSetting } from "./PacksSettings/PacksSetting";
 import { useDebounce } from "common/hooks/useDebounse";
+import { Pagination } from "common/components/Pagination/Pagination";
 
 export const Packs = () => {
   const { fetchPacks, removePack, createPack } = useActions(packsThunks);
-  const { packsSearch } = useActions(packsActions)
+  const { packsSearch,changePagintationAC } = useActions(packsActions)
 
   const cardPacks = useAppSelector((state) => state.packs.cardPacks);
   const userId = useAppSelector((state) => state.auth.profile?._id);
   const searchValue = useAppSelector((state) => state.packs.packsSearch);
+  const page = useAppSelector((state) => state.packs.page);
+  const pageCount = useAppSelector((state) => state.packs.pageCount);
+  const cardPacksTotalCount = useAppSelector((state) => state.packs.cardPacksTotalCount);
+  const status = useAppSelector((state) => state.app.isLoading);
+
 
   const sliderChangeHandler = (event: any, value: number | number[]) => {
     setSliderValue(value as number[]);
@@ -32,13 +38,16 @@ export const Packs = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    debugger
     fetchPacks({
-        searchName:searchValue,
-        userID: myPacksStatus ? userId : '',
-        minCards: sliderValue[0],
-        maxCards: sliderValue[1]
+        max:sliderValue[1],
+        min:sliderValue[0],
+        packName: searchValue,
+        page:page,
+        pageCount:pageCount,
+        user_id: myPacksStatus? userId : undefined,
       });
-  }, [debouncedValue,myPacksStatus,sliderValue]);
+  }, [debouncedValue,myPacksStatus,sliderValue,page]);
 
   const searchPacksHander = (e:any) => {
     packsSearch(e.currentTarget.value)
@@ -63,9 +72,23 @@ export const Packs = () => {
   const navigateToCardsPageHandler = (packId: string) => {
 		navigate(`/cards/${packId}`);
 	};
+
   const changeMyPacksStatus = (e:any) => {
     setMyPacksStatus(e.currentTarget.checked)
   }
+
+  const changePagination = useCallback(
+    (page: number, pageCount: number) => {
+      debugger
+      changePagintationAC(page)
+    },
+    [dispatch],
+  )
+
+  if (!userId) {
+    navigate(`/signin`);
+  }
+
   return (
     <div>
       <h1>Packs</h1>
@@ -83,7 +106,14 @@ export const Packs = () => {
         removePackHandler = {removePackHandler}  
         updatePackHandler = {updatePackHandler }
         navigateToCardsPageHandler = {navigateToCardsPageHandler}
+        status = {status}
       ></PacksTable>
+      <Pagination
+        page={page}
+        pageCount={pageCount}
+        totalCount={cardPacksTotalCount}
+        changePagination={changePagination}
+        />
     </div>
   );
 };

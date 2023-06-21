@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
-import { ArgCreatePackType, FetchPacksResponseType, fetchPackType, packsApi, PackType } from "features/packs/packs.api";
+import { ArgCreatePackType, FetchPacksResponseType, QueryParamsPackType, packsApi, PackType } from "features/packs/packs.api";
 
-const fetchPacks = createAppAsyncThunk<{ packsPage: FetchPacksResponseType }, fetchPackType>(
+const fetchPacks = createAppAsyncThunk<{ packsPage: FetchPacksResponseType }, QueryParamsPackType>(
   "packs/fetchPacks",
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
@@ -50,6 +50,10 @@ const slice = createSlice({
   reducers: {
     packsSearch(state, action: PayloadAction<string>) {
       state.packsSearch = action.payload
+    },
+    changePagintationAC(state, action :PayloadAction<number>){
+      state.page = action.payload
+      debugger
     }
   },
   extraReducers: (builder) => {

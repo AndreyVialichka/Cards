@@ -13,7 +13,8 @@ type PacksTablePropsType = {
     cards: Array<PackType>,
     removePackHandler: (id:string) => void,
     updatePackHandler: (pack:PackType) => void,
-    navigateToCardsPageHandler: (id:string) => void
+    navigateToCardsPageHandler: (id:string) => void,
+    status : boolean
 
 }
 
@@ -43,9 +44,9 @@ export default function PacksTable(props:PacksTablePropsType) {
               <TableCell align="right">{card.updated}</TableCell>
               <TableCell align="right">{card.user_name}</TableCell>              
               <TableCell align="right">
-                <button onClick={() => props.removePackHandler(card._id)}>remove</button>
-                <button onClick={() => props.updatePackHandler(card)}>update</button>
-                <button onClick={() => props.navigateToCardsPageHandler(card._id)}>на страницу карточек</button>
+                <button onClick={() => props.removePackHandler(card._id)} disabled={props.status}>remove</button>
+                <button onClick={() => props.updatePackHandler(card)} disabled={props.status}>update</button>
+                <button onClick={() => props.navigateToCardsPageHandler(card._id) } disabled={props.status}>на страницу карточек</button>
               </TableCell>
             </TableRow>
           })}

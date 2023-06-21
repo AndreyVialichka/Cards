@@ -5,6 +5,9 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.2",
     "@reduxjs/toolkit": "^1.8.1",
@@ -31,7 +34,6 @@
       "axios": "axios/dist/node/axios.cjs"
     }
   },
-  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
